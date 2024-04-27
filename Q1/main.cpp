@@ -17,49 +17,40 @@ int MAX_OPERATORS = 2; // Maximum number of operators to move the boat
  * Description: Performs a breadth-first search to find the solution
  */
 vector<State> breadthFirstSearch(const State &initial) {
-  queue<State> path;
-  list<State> visited;
-  path.push(initial);
+  queue<vector<State>> frontier;
+  unordered_set<string> explored;
 
-  while (!path.empty()) {
-    queue<vector<State>> frontier;
-    unordered_set<string> explored;
+  vector<State> path{initial};
+  frontier.push(path);
 
-    vector<State> path{initial};
-    frontier.push(path);
+  /* Iterate over the frontier */
+  while (!frontier.empty()) {
+    path = frontier.front();
+    frontier.pop();
+    State lastState = path.back();
 
-    /* Iterate over the frontier */
-    while (!frontier.empty()) {
-      path = frontier.front();
-      frontier.pop();
-      State lastState = path.back();
-
-      if (lastState.isGoal()) {
-        return path;
-      }
-
-      vector<State> succ = lastState.successors(MAX_OPERATORS, MIN_OPERATORS);
-      for (const auto &next : succ) {
-        /* Check if the state has already been visited */
-        string hash = to_string(next.left.missionaries) +
-                      to_string(next.left.cannibals) +
-                      to_string(next.boat_left);
-        if (explored.find(hash) == explored.end()) {
-          explored.insert(hash);
-
-          /* Add the new state to the path */
-          vector<State> newPath = path;
-          newPath.push_back(next);
-
-          /* Add the new path to the frontier */
-          frontier.push(newPath);
-        }
-      }
+    if (lastState.isGoal()) {
+      return path;
     }
 
-    cout << "No solution found." << endl;
-    break;
+    vector<State> succ = lastState.successors(MAX_OPERATORS, MIN_OPERATORS);
+    for (const auto &next : succ) {
+      /* Check if the state has already been visited */
+      string hash = next.fingerprint();
+      if (explored.find(hash) == explored.end()) {
+        explored.insert(hash);
+
+        /* Add the new state to the path */
+        vector<State> newPath = path;
+        newPath.push_back(next);
+
+        /* Add the new path to the frontier */
+        frontier.push(newPath);
+      }
+    }
   }
+
+  cout << "No solution found." << endl;
   return vector<State>{}; // Empty vector
 }
 

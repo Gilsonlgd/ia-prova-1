@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 class Side {
@@ -24,10 +25,10 @@ class State {
 public:
   Side left;      // estado inicial
   Side right;     // estado final
-  bool boat_left; // true se o barco está à esquerda
+  bool boatLeft;  // true se o barco está à esquerda
 
   State(int ml, int cl, int mr, int cr, bool bl)
-      : left(ml, cl), right(mr, cr), boat_left(bl) {}
+      : left(ml, cl), right(mr, cr), boatLeft(bl) {}
 
   /*  Function: successors
    * Description: Generates all possible states that can be reached from the
@@ -36,7 +37,7 @@ public:
   vector<State> successors(int MAX_OPERATORS, int MIN_OPERATORS) {
     vector<State> succ;
 
-    if (this->boat_left) {
+    if (this->boatLeft) {
       for (int m = 0; m <= MAX_OPERATORS; m++) {
         for (int c = 0; c <= MAX_OPERATORS; c++) {
           if (m + c >= MIN_OPERATORS &&
@@ -88,12 +89,19 @@ public:
 
   bool isGoal() const { return left.missionaries == 0 && left.cannibals == 0; }
 
+  string fingerprint() const {
+    return to_string(left.missionaries) + to_string(left.cannibals) +
+           to_string(right.missionaries) + to_string(right.cannibals) +
+           to_string(boatLeft);
+           
+  }
+
   bool operator==(const State &other) const {
     return left.missionaries == other.left.missionaries &&
            left.cannibals == other.left.cannibals &&
            right.missionaries == other.right.missionaries &&
            right.cannibals == other.right.cannibals &&
-           boat_left == other.boat_left;
+           boatLeft == other.boatLeft;
   }
 
   bool operator!=(const State &other) const { return !(*this == other); }
@@ -102,7 +110,7 @@ public:
     cout << index << " - "
          << "("
          << "m: " << left.missionaries << ", "
-         << "c: " << left.cannibals << ", " << (boat_left ? "left" : "right")
+         << "c: " << left.cannibals << ", " << (boatLeft ? "left" : "right")
          << ", "
          << "m: " << right.missionaries << ", "
          << "c: " << right.cannibals << ")" << endl;
@@ -111,7 +119,7 @@ public:
   void print() const {
     cout << "("
          << "m: " << left.missionaries << ", "
-         << "c: " << left.cannibals << ", " << (boat_left ? "left" : "right")
+         << "c: " << left.cannibals << ", " << (boatLeft ? "left" : "right")
          << ", "
          << "m: " << right.missionaries << ", "
          << "c: " << right.cannibals << ")" << endl;
