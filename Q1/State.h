@@ -60,6 +60,15 @@ public:
          << "m: " << right.missionaries << ", "
          << "c: " << right.cannibals << ")" << endl;
   }
+
+  void print() const {
+    cout << "("
+         << "m: " << left.missionaries << ", "
+         << "c: " << left.cannibals << ", " << (boat_left ? "left" : "right")
+         << ", "
+         << "m: " << right.missionaries << ", "
+         << "c: " << right.cannibals << ")" << endl;
+  }
 };
 
 #endif

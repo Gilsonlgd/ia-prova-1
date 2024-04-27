@@ -10,9 +10,12 @@ using namespace std;
 
 #include "State.h"
 
-int MIN_OPERATORS = 1;
-int MAX_OPERATORS = 2;
-
+int MIN_OPERATORS = 1; // Minimum number of operators to move the boat
+int MAX_OPERATORS = 2; // Maximum number of operators to move the boat
+/*  Function: successors
+ * Description: Generates all possible states that can be reached from the
+ * current state
+ */
 vector<State> successors(const State &state) {
   vector<State> succ;
 
@@ -20,10 +23,13 @@ vector<State> successors(const State &state) {
     for (int m = 0; m <= MAX_OPERATORS; m++) {
       for (int c = 0; c <= MAX_OPERATORS; c++) {
         if (m + c >= MIN_OPERATORS &&
-            m + c <= MAX_OPERATORS) { // Move at most MAX_OPERATORS people
-          State next(state.left.missionaries - m, state.left.cannibals - c,
-                     state.right.missionaries + m, state.right.cannibals + c,
-                     false); // Move boat to right
+            m + c <= MAX_OPERATORS) { /* Move at most MAX_OPERATORS people */
+          int n_ml = state.left.missionaries - m;
+          int n_cl = state.left.cannibals - c;
+          int n_mr = state.right.missionaries + m;
+          int n_cr = state.right.cannibals + c;
+          State next(n_ml, n_cl, n_mr, n_cr, false); /* Move boat to right */
+
           if (next.isValid()) {
             succ.push_back(next);
           }
@@ -35,9 +41,12 @@ vector<State> successors(const State &state) {
       for (int c = 0; c <= MAX_OPERATORS; c++) {
         if (m + c >= MIN_OPERATORS &&
             m + c <= MAX_OPERATORS) { // Move at most MAX_OPERATORS people
-          State next(state.left.missionaries + m, state.left.cannibals + c,
-                     state.right.missionaries - m, state.right.cannibals - c,
-                     true); // Move boat to left
+          int n_ml = state.left.missionaries + m;
+          int n_cl = state.left.cannibals + c;
+          int n_mr = state.right.missionaries - m;
+          int n_cr = state.right.cannibals - c;
+          State next(n_ml, n_cl, n_mr, n_cr, true); // Move boat to left
+
           if (next.isValid()) {
             succ.push_back(next);
           }
@@ -49,11 +58,13 @@ vector<State> successors(const State &state) {
   return succ;
 }
 
+/* Function: breadthFirstSearch
+ * Description: Performs a breadth-first search to find the solution
+ */
 vector<State> breadthFirstSearch(const State &initial) {
   queue<State> path;
   list<State> visited;
   path.push(initial);
-  int count = 0;
 
   while (!path.empty()) {
     queue<vector<State>> frontier;
@@ -62,7 +73,7 @@ vector<State> breadthFirstSearch(const State &initial) {
     vector<State> path{initial};
     frontier.push(path);
 
-    // Enquanto houver caminhos para explorar
+    /* Iterate over the frontier */
     while (!frontier.empty()) {
       path = frontier.front();
       frontier.pop();
@@ -72,32 +83,36 @@ vector<State> breadthFirstSearch(const State &initial) {
         return path;
       }
 
-      // Gera todos os sucessores do último estado do caminho
+      /* Generate successors of the last state */
       vector<State> succ = successors(lastState);
 
-      // Para cada sucessor
       for (const auto &next : succ) {
-        // Verifica se o estado já foi explorado
+        /* Check if the state has already been visited */
         string hash = to_string(next.left.missionaries) +
                       to_string(next.left.cannibals) +
                       to_string(next.boat_left);
         if (explored.find(hash) == explored.end()) {
           explored.insert(hash);
 
-          // Adiciona o novo estado ao caminho
+          /* Add the new state to the path */
           vector<State> newPath = path;
           newPath.push_back(next);
 
-          // Adiciona o novo caminho à fronteira
+          /* Add the new path to the frontier */
           frontier.push(newPath);
         }
       }
     }
 
     cout << "No solution found." << endl;
+    break;
   }
+  return vector<State>{}; // Empty vector
 }
 
+/* Function: handleInput
+ * Description: Handles the input from the user
+ */
 void handleInput(int *n_missionaries, int *n_cannibals, int *n_operators) {
   cout << "Number of missionaries: ";
   cin >> *n_missionaries;
@@ -116,17 +131,18 @@ int main() {
   State initial(n_missionaries, n_cannibals, 0, 0, true);
 
   cout << "Initial state:" << endl;
-  initial.print(0);
+  initial.print();
 
   cout << "Searching..." << endl;
   vector<State> result = breadthFirstSearch(initial);
 
-  cout << "Path:" << endl;
-
-  int index = 1;
-  for (const auto &state : result) {
-    state.print(index);
-    index++;
+  if (!result.empty()) {
+    cout << "Path:" << endl;
+    int index = 1;
+    for (const auto &state : result) {
+      state.print(index);
+      index++;
+    }
   }
 
   return 0;
