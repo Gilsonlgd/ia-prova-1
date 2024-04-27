@@ -12,51 +12,6 @@ using namespace std;
 
 int MIN_OPERATORS = 1; // Minimum number of operators to move the boat
 int MAX_OPERATORS = 2; // Maximum number of operators to move the boat
-/*  Function: successors
- * Description: Generates all possible states that can be reached from the
- * current state
- */
-vector<State> successors(const State &state) {
-  vector<State> succ;
-
-  if (state.boat_left) {
-    for (int m = 0; m <= MAX_OPERATORS; m++) {
-      for (int c = 0; c <= MAX_OPERATORS; c++) {
-        if (m + c >= MIN_OPERATORS &&
-            m + c <= MAX_OPERATORS) { /* Move at most MAX_OPERATORS people */
-          int n_ml = state.left.missionaries - m;
-          int n_cl = state.left.cannibals - c;
-          int n_mr = state.right.missionaries + m;
-          int n_cr = state.right.cannibals + c;
-          State next(n_ml, n_cl, n_mr, n_cr, false); /* Move boat to right */
-
-          if (next.isValid()) {
-            succ.push_back(next);
-          }
-        }
-      }
-    }
-  } else { // Boat is on the right side
-    for (int m = 0; m <= MAX_OPERATORS; m++) {
-      for (int c = 0; c <= MAX_OPERATORS; c++) {
-        if (m + c >= MIN_OPERATORS &&
-            m + c <= MAX_OPERATORS) { // Move at most MAX_OPERATORS people
-          int n_ml = state.left.missionaries + m;
-          int n_cl = state.left.cannibals + c;
-          int n_mr = state.right.missionaries - m;
-          int n_cr = state.right.cannibals - c;
-          State next(n_ml, n_cl, n_mr, n_cr, true); // Move boat to left
-
-          if (next.isValid()) {
-            succ.push_back(next);
-          }
-        }
-      }
-    }
-  }
-
-  return succ;
-}
 
 /* Function: breadthFirstSearch
  * Description: Performs a breadth-first search to find the solution
@@ -83,9 +38,7 @@ vector<State> breadthFirstSearch(const State &initial) {
         return path;
       }
 
-      /* Generate successors of the last state */
-      vector<State> succ = successors(lastState);
-
+      vector<State> succ = lastState.successors(MAX_OPERATORS, MIN_OPERATORS);
       for (const auto &next : succ) {
         /* Check if the state has already been visited */
         string hash = to_string(next.left.missionaries) +
