@@ -27,56 +27,58 @@ public:
 
   State(int x, int y, Action a) : pitcher_x(x), pitcher_y(y), action(a) {}
 
-  vector<State> successors() const {
-    vector<State> succ;
+  vector<State *> successors() const {
+    vector<State *> succ;
 
     for (int x = 0; x <= 3; x++) {
       for (int y = 0; y <= 4; y++) {
         if (x < 3) {
-          State next(3, this->pitcher_y, FILL_X);
-          if (next.isValid())
+          State *next = new State(3, this->pitcher_y, FILL_X);
+          if (next->isValid())
             succ.push_back(next);
         }
 
         if (y < 4) {
-          State next(this->pitcher_x, 4, FILL_Y);
-          if (next.isValid())
+          State *next = new State(this->pitcher_x, 4, FILL_Y);
+          if (next->isValid())
             succ.push_back(next);
         }
 
         if (x > 0) {
-          State next(0, this->pitcher_y, EMPTY_X);
-          if (next.isValid())
+          State *next = new State(0, this->pitcher_y, EMPTY_X);
+          if (next->isValid())
             succ.push_back(next);
         }
 
         if (y > 0) {
-          State next(this->pitcher_x, 0, EMPTY_Y);
-          if (next.isValid())
+          State *next = new State(this->pitcher_x, 0, EMPTY_Y);
+          if (next->isValid())
             succ.push_back(next);
         }
 
         if (x > 0 && y < 4 && (x + y) <= 4) {
-          State next(0, this->pitcher_x + this->pitcher_y, X_TO_Y);
-          if (next.isValid())
+          State *next = new State(0, this->pitcher_x + this->pitcher_y, X_TO_Y);
+          if (next->isValid())
             succ.push_back(next);
         }
 
         if (x > 0 && y < 4 && (x + y) > 4) {
-          State next(this->pitcher_x + this->pitcher_y - 4, 4, X_TO_Y);
-          if (next.isValid())
+          State *next =
+              new State(this->pitcher_x + this->pitcher_y - 4, 4, X_TO_Y);
+          if (next->isValid())
             succ.push_back(next);
         }
 
         if (x < 3 && y > 0 && (x + y) <= 3) {
-          State next(this->pitcher_x + this->pitcher_y, 0, Y_TO_X);
-          if (next.isValid())
+          State *next = new State(this->pitcher_x + this->pitcher_y, 0, Y_TO_X);
+          if (next->isValid())
             succ.push_back(next);
         }
 
         if (x < 3 && y > 0 && (x + y) > 3) {
-          State next(3, this->pitcher_x + this->pitcher_y - 3, Y_TO_X);
-          if (next.isValid())
+          State *next =
+              new State(3, this->pitcher_x + this->pitcher_y - 3, Y_TO_X);
+          if (next->isValid())
             succ.push_back(next);
         }
       }
@@ -86,6 +88,7 @@ public:
   }
 
   void setParent(State *p) { parent = p; }
+  State *getParent() const { return parent; }
 
   bool isValid() const {
     return pitcher_x >= 0 && pitcher_y >= 0 && pitcher_x <= 3 && pitcher_y <= 4;
