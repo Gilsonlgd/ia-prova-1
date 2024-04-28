@@ -35,9 +35,8 @@ BFSResult breadthFirstSearch(State *initial) {
 
     vector<State *> succ = currentNode->successors();
     for (auto next : succ) {
-      if (exploredList.find(next->fingerprint()) == exploredList.end()) {
-        next->setParent(currentNode);
-        string hash = next->fingerprint();
+      string hash = next->fingerprint();
+      if (exploredList.find(hash) == exploredList.end()) {
         exploredList.insert(hash);
         openList.push_back(next);
       }
@@ -51,7 +50,7 @@ BFSResult breadthFirstSearch(State *initial) {
 }
 
 int main() {
-  State *initial = new State(0, 0, NONE);
+  State *initial = new State(0, 0, NONE, nullptr);
 
   cout << "Initial state:" << endl;
   initial->print(0);

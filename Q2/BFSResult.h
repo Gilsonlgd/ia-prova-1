@@ -20,7 +20,7 @@ private:
 
     while (current != nullptr) {
       path.insert(path.begin(), current);
-      current = current->parent;
+      current = current->getParent();
     }
 
     return path;

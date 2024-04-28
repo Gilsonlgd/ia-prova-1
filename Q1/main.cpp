@@ -16,42 +16,41 @@ int MAX_OPERATORS = 2; // Maximum number of operators to move the boat
 /* Function: breadthFirstSearch
  * Description: Performs a breadth-first search to find the solution
  */
-vector<State> breadthFirstSearch(const State &initial) {
-  queue<vector<State>> frontier;
-  unordered_set<string> explored;
-
-  vector<State> path{initial};
-  frontier.push(path);
+vector<State *> breadthFirstSearch(State *initial) {
+  vector<State *> openList = {initial};
+  unordered_set<string> exploredList;
+  State *currentNode = initial;
 
   /* Iterate over the frontier */
-  while (!frontier.empty()) {
-    path = frontier.front();
-    frontier.pop();
-    State lastState = path.back();
+  while (!openList.empty()) {
+    currentNode = openList.front();
 
-    if (lastState.isGoal()) {
+    if (currentNode->isGoal()) {
+      vector<State *> path;
+      State *current = currentNode;
+
+      while (current != nullptr) {
+        path.insert(path.begin(), current);
+        current = current->getParent();
+      }
+
       return path;
     }
 
-    vector<State> succ = lastState.successors(MAX_OPERATORS, MIN_OPERATORS);
+    vector<State *> succ =
+        currentNode->successors(MAX_OPERATORS, MIN_OPERATORS);
     for (const auto &next : succ) {
       /* Check if the state has already been visited */
-      string hash = next.fingerprint();
-      if (explored.find(hash) == explored.end()) {
-        explored.insert(hash);
-
-        /* Add the new state to the path */
-        vector<State> newPath = path;
-        newPath.push_back(next);
-
-        /* Add the new path to the frontier */
-        frontier.push(newPath);
+      string hash = next->fingerprint();
+      if (exploredList.find(hash) == exploredList.end()) {
+        exploredList.insert(hash);
+        openList.push_back(next);
       }
     }
+    openList.erase(openList.begin());
   }
 
-  cout << "No solution found." << endl;
-  return vector<State>{}; // Empty vector
+  return vector<State *>{}; // Empty vector
 }
 
 /* Function: handleInput
@@ -72,19 +71,19 @@ int main() {
   int n_cannibals = 3;
 
   handleInput(&n_missionaries, &n_cannibals, &MAX_OPERATORS);
-  State initial(n_missionaries, n_cannibals, 0, 0, true);
+  State *initial = new State(n_missionaries, n_cannibals, 0, 0, true, nullptr);
 
   cout << "Initial state:" << endl;
-  initial.print();
+  initial->print();
 
   cout << "Searching..." << endl;
-  vector<State> result = breadthFirstSearch(initial);
+  vector<State*> result = breadthFirstSearch(initial);
 
   if (!result.empty()) {
     cout << "Path:" << endl;
     int index = 1;
     for (const auto &state : result) {
-      state.print(index);
+      state->print(index);
       index++;
     }
   }

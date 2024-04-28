@@ -2,8 +2,9 @@
 #define STATE_H
 
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
+
 using namespace std;
 
 class Side {
@@ -22,20 +23,24 @@ public:
 };
 
 class State {
-public:
-  Side left;      // estado inicial
-  Side right;     // estado final
-  bool boatLeft;  // true se o barco está à esquerda
+private:
+  Side left;     // estado inicial
+  Side right;    // estado final
+  bool boatLeft; // true se o barco está à esquerda
+  State *parent = nullptr;
 
-  State(int ml, int cl, int mr, int cr, bool bl)
-      : left(ml, cl), right(mr, cr), boatLeft(bl) {}
+public:
+  State(int ml, int cl, int mr, int cr, bool bl, State *p)
+      : left(ml, cl), right(mr, cr), boatLeft(bl) {
+    parent = p;
+  }
 
   /*  Function: successors
    * Description: Generates all possible states that can be reached from the
    * current state
    */
-  vector<State> successors(int MAX_OPERATORS, int MIN_OPERATORS) {
-    vector<State> succ;
+  vector<State *> successors(int MAX_OPERATORS, int MIN_OPERATORS) {
+    vector<State *> succ;
 
     if (this->boatLeft) {
       for (int m = 0; m <= MAX_OPERATORS; m++) {
@@ -46,9 +51,10 @@ public:
             int n_cl = this->left.cannibals - c;
             int n_mr = this->right.missionaries + m;
             int n_cr = this->right.cannibals + c;
-            State next(n_ml, n_cl, n_mr, n_cr, false); /* Move boat to right */
+            State *next = new State(n_ml, n_cl, n_mr, n_cr, false,
+                                    this); /* Move boat to right */
 
-            if (next.isValid()) {
+            if (next->isValid()) {
               succ.push_back(next);
             }
           }
@@ -63,9 +69,10 @@ public:
             int n_cl = this->left.cannibals + c;
             int n_mr = this->right.missionaries - m;
             int n_cr = this->right.cannibals - c;
-            State next(n_ml, n_cl, n_mr, n_cr, true); // Move boat to left
+            State *next = new State(n_ml, n_cl, n_mr, n_cr, true,
+                                    this); // Move boat to left
 
-            if (next.isValid()) {
+            if (next->isValid()) {
               succ.push_back(next);
             }
           }
@@ -75,6 +82,8 @@ public:
 
     return succ;
   }
+  
+  State *getParent() const { return parent; }
 
   bool isValid() const {
     if (left.missionaries < 0 || left.cannibals < 0 || right.missionaries < 0 ||
@@ -93,7 +102,6 @@ public:
     return to_string(left.missionaries) + to_string(left.cannibals) +
            to_string(right.missionaries) + to_string(right.cannibals) +
            to_string(boatLeft);
-           
   }
 
   bool operator==(const State &other) const {

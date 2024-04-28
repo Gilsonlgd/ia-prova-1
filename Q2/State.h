@@ -9,75 +9,73 @@ using namespace std;
 
 enum Action { NONE, FILL_X, FILL_Y, EMPTY_X, EMPTY_Y, X_TO_Y, Y_TO_X };
 
-/* Class: State
- * Description: Represents a state in the pitchers problem
- * The pitcher problem consists of two pitchers, X and Y, with capacities
- * pitcher_x and pitcher_y, respectively. The goal is to measure a certain
- * amount of water using only these two pitchers.
- * uma sequência de passos que deixe o jarro de 4 litros com exatamente 2 litros
- * de água. The actions that can be performed are:
- */
 class State {
-public:
+private:
   int pitcher_x;
   int pitcher_y;
   int GOAL = 2;
   Action action;
   State *parent = nullptr;
 
-  State(int x, int y, Action a) : pitcher_x(x), pitcher_y(y), action(a) {}
+public:
+  State(int x, int y, Action a, State *p)
+      : pitcher_x(x), pitcher_y(y), action(a) {
+    parent = p;
+  }
 
-  vector<State *> successors() const {
+  vector<State *> successors() {
     vector<State *> succ;
 
     for (int x = 0; x <= 3; x++) {
       for (int y = 0; y <= 4; y++) {
         if (x < 3) {
-          State *next = new State(3, this->pitcher_y, FILL_X);
+          State *next = new State(3, this->pitcher_y, FILL_X, this);
           if (next->isValid())
             succ.push_back(next);
         }
 
         if (y < 4) {
-          State *next = new State(this->pitcher_x, 4, FILL_Y);
+          State *next = new State(this->pitcher_x, 4, FILL_Y, this);
           if (next->isValid())
             succ.push_back(next);
         }
 
         if (x > 0) {
-          State *next = new State(0, this->pitcher_y, EMPTY_X);
+          State *next = new State(0, this->pitcher_y, EMPTY_X, this);
           if (next->isValid())
             succ.push_back(next);
         }
 
         if (y > 0) {
-          State *next = new State(this->pitcher_x, 0, EMPTY_Y);
+          State *next = new State(this->pitcher_x, 0, EMPTY_Y, this);
           if (next->isValid())
             succ.push_back(next);
         }
 
         if (x > 0 && y < 4 && (x + y) <= 4) {
-          State *next = new State(0, this->pitcher_x + this->pitcher_y, X_TO_Y);
+          State *next =
+              new State(0, this->pitcher_x + this->pitcher_y, X_TO_Y, this);
           if (next->isValid())
             succ.push_back(next);
         }
 
         if (x > 0 && y < 4 && (x + y) > 4) {
           State *next =
-              new State(this->pitcher_x + this->pitcher_y - 4, 4, X_TO_Y);
+              new State(this->pitcher_x + this->pitcher_y - 4, 4, X_TO_Y, this);
           if (next->isValid())
             succ.push_back(next);
         }
 
         if (x < 3 && y > 0 && (x + y) <= 3) {
-          State *next = new State(this->pitcher_x + this->pitcher_y, 0, Y_TO_X);
+          State *next =
+              new State(this->pitcher_x + this->pitcher_y, 0, Y_TO_X, this);
           if (next->isValid())
             succ.push_back(next);
         }
 
         if (x < 3 && y > 0 && (x + y) > 3) {
           State *next =
-              new State(3, this->pitcher_x + this->pitcher_y - 3, Y_TO_X);
+              new State(3, this->pitcher_x + this->pitcher_y - 3, Y_TO_X, this);
           if (next->isValid())
             succ.push_back(next);
         }
@@ -87,7 +85,6 @@ public:
     return succ;
   }
 
-  void setParent(State *p) { parent = p; }
   State *getParent() const { return parent; }
 
   bool isValid() const {
