@@ -20,12 +20,12 @@ BFSResult breadthFirstSearch(State *initial) {
   vector<vector<State *>> openListHistory;
   vector<State *> closedListHistory;
 
-  vector<State *> openList = {initial};
+  vector<State *> openList = {initial}; /*Vector used like a queue*/
   unordered_set<string> exploredList;
   State *currentNode = initial;
 
   while (!openList.empty()) {
-    currentNode = openList.front();
+    currentNode = openList.front(); /*Get the first element of the queue*/
     openListHistory.push_back(openList);
 
     if (currentNode->isGoal()) {
@@ -38,12 +38,12 @@ BFSResult breadthFirstSearch(State *initial) {
       string hash = next->fingerprint();
       if (exploredList.find(hash) == exploredList.end()) {
         exploredList.insert(hash);
-        openList.push_back(next);
+        openList.push_back(next); /*Insert the new node in the end*/
       }
     }
 
     closedListHistory.push_back(currentNode);
-    openList.erase(openList.begin());
+    openList.erase(openList.begin()); /*Remove the first element*/
   }
 
   return BFSResult(openListHistory, closedListHistory, nullptr);

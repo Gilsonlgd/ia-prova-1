@@ -17,13 +17,13 @@ int MAX_OPERATORS = 2; // Maximum number of operators to move the boat
  * Description: Performs a breadth-first search to find the solution
  */
 vector<State *> breadthFirstSearch(State *initial) {
-  vector<State *> openList = {initial};
+  vector<State *> openList = {initial}; /* Vector used like a queue */
   unordered_set<string> exploredList;
   State *currentNode = initial;
 
   /* Iterate over the frontier */
   while (!openList.empty()) {
-    currentNode = openList.front();
+    currentNode = openList.front(); /* Get the first element of the queue */
 
     if (currentNode->isGoal()) {
       vector<State *> path;
@@ -44,10 +44,10 @@ vector<State *> breadthFirstSearch(State *initial) {
       string hash = next->fingerprint();
       if (exploredList.find(hash) == exploredList.end()) {
         exploredList.insert(hash);
-        openList.push_back(next);
+        openList.push_back(next); /* Insert the new node in the end */
       }
     }
-    openList.erase(openList.begin());
+    openList.erase(openList.begin()); /* Remove the first element */
   }
 
   return vector<State *>{}; // Empty vector
