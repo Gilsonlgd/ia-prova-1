@@ -23,6 +23,7 @@ public:
   int pitcher_y;
   int GOAL = 2;
   Action action;
+  State *parent = nullptr;
 
   State(int x, int y, Action a) : pitcher_x(x), pitcher_y(y), action(a) {}
 
@@ -83,6 +84,8 @@ public:
 
     return succ;
   }
+
+  void setParent(State *p) { parent = p; }
 
   bool isValid() const {
     return pitcher_x >= 0 && pitcher_y >= 0 && pitcher_x <= 3 && pitcher_y <= 4;

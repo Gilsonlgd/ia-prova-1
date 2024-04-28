@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstddef>
 #include <iostream>
 #include <list>
 #include <map>
@@ -16,49 +17,44 @@ using namespace std;
  * Description: Performs a breadth-first search to find the solution
  */
 BFSResult breadthFirstSearch(const State &initial) {
-  queue<vector<State>> frontier;
-  unordered_set<string> explored;
+  vector<vector<State>> openListHistory;
+  vector<State> closedListHistory;
+  vector<State> finalPath;
 
-  vector<vector<State>> openList;
-  vector<State> closedList;
+  vector<State> openList = {initial};
+  unordered_set<string> exploredList;
+  State currentNode = initial;
 
-  frontier.push({initial});
+  while (!openList.empty()) {
+    currentNode = openList.front();
+    openListHistory.push_back(openList);
 
-  /* Iterate over the frontier */
-  while (!frontier.empty()) {
-    vector<State> currentPath = frontier.front();
-    State lastState = currentPath.back();
+    if (currentNode.isGoal()) {
+      closedListHistory.push_back(currentNode);
 
-    frontier.pop();
-    openList.push_back(currentPath);
+      while (currentNode.parent != nullptr) {
+        currentNode.print(0);
+        finalPath.push_back(currentNode);
+        currentNode = *currentNode.parent;
+      }
 
-    if (lastState.isGoal()) {
-      // Encontramos uma solução, retornamos o caminho até aqui
-      return BFSResult(openList, closedList, currentPath);
+      return BFSResult(openListHistory, closedListHistory, finalPath);
     }
 
-    vector<State> succ = lastState.successors();
+    vector<State> succ = currentNode.successors();
     for (const auto &next : succ) {
-      /* Check if the state has already been visited */
-      string hash = next.fingerprint();
-      if (explored.find(hash) == explored.end()) {
-        explored.insert(hash);
-
-        /* Add the new state to the path */
-        vector<State> newPath = currentPath;
-        newPath.push_back(next);
-
-        /* Add the new path to the frontier */
-        frontier.push(newPath);
+      if (exploredList.find(next.fingerprint()) == exploredList.end()) {
+        string hash = next.fingerprint();
+        exploredList.insert(hash);
+        openList.push_back(next);
       }
     }
 
-    closedList.push_back(lastState);
+    closedListHistory.push_back(currentNode);
+    openList.erase(openList.begin());
   }
 
-  cout << "No solution found." << endl;
-  // Retornamos um vetor vazio se não encontrarmos uma solução
-  return BFSResult(openList, closedList, {});
+  return BFSResult(openListHistory, closedListHistory, {});
 }
 
 int main() {
@@ -70,9 +66,9 @@ int main() {
   cout << "Searching..." << endl;
   BFSResult result = breadthFirstSearch(initial);
 
-  if (result.isValid()) {
-    result.printPath();
-    // result.printProccessTable();
+  if (true) {
+    // result.printPath();
+    result.printProccessTable();
     // result.printSearchTree();
   }
 
