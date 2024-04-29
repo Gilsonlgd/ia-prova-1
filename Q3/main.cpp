@@ -26,7 +26,7 @@ DFSResult depthFirstSearch(State *initial) {
 
   while (!openList.empty()) {
     currentNode = openList.front(); /* Get the top element of the stack */
-    openListHistory.push_back(openList); 
+    openListHistory.push_back(openList);
     openList.erase(openList.begin()); /* Remove the top element */
 
     if (currentNode->isGoal()) {
@@ -58,7 +58,7 @@ int main() {
   cout << "Searching..." << endl;
   DFSResult result = depthFirstSearch(initial);
 
-  if (true) {
+  if (result.isValid()) {
     result.printPath();
     // result.printProccessTable();
   } else {
