@@ -1,0 +1,11 @@
+Initial state:
+0 - (0, 0) - NONE
+Searching...
+Path:
+1 - (0, 0) - NONE
+2 - (3, 0) - Fill X
+3 - (0, 3) - X to Y
+4 - (3, 3) - Fill X
+5 - (2, 4) - X to Y
+6 - (2, 0) - Empty Y
+7 - (0, 2) - X to Y
