@@ -1,0 +1,7 @@
+Initial state:
+(0) = 0, c -> a
+Searching...
+Path:
+(1) = 0, c -> a
+(2) = 3, a -> d
+(3) = 9, d -> j
