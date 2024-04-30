@@ -10,14 +10,13 @@
 
 using namespace std;
 
-#include "BFSResult.h"
-#include "DFSResult.h"
+#include "Result.h"
 #include "State.h"
 
 /* Function: breadthFirstSearch
  * Description: Performs a breadth-first search to find the solution
  */
-BFSResult breadthFirstSearch(State *initial) {
+Result breadthFirstSearch(State *initial) {
   vector<vector<State *>> openListHistory;
   vector<State *> closedListHistory;
 
@@ -31,7 +30,7 @@ BFSResult breadthFirstSearch(State *initial) {
 
     if (currentNode->isGoal()) {
       closedListHistory.push_back(currentNode);
-      return BFSResult(openListHistory, closedListHistory, currentNode);
+      return Result(openListHistory, closedListHistory, currentNode);
     }
 
     vector<State *> succ = currentNode->successors();
@@ -47,13 +46,13 @@ BFSResult breadthFirstSearch(State *initial) {
     openList.erase(openList.begin()); /*Remove the first element*/
   }
 
-  return BFSResult(openListHistory, closedListHistory, nullptr);
+  return Result(openListHistory, closedListHistory, nullptr);
 }
 
 /* Function: depthFirstSearch
  * Description: Performs a depth-first search to find the solution
  */
-DFSResult depthFirstSearch(State *initial) {
+Result depthFirstSearch(State *initial) {
   vector<vector<State *>> openListHistory;
   vector<State *> closedListHistory;
 
@@ -68,7 +67,7 @@ DFSResult depthFirstSearch(State *initial) {
 
     if (currentNode->isGoal()) {
       closedListHistory.push_back(currentNode);
-      return DFSResult(openListHistory, closedListHistory, currentNode);
+      return Result(openListHistory, closedListHistory, currentNode);
     }
 
     vector<State *> succ = currentNode->successors();
@@ -83,7 +82,7 @@ DFSResult depthFirstSearch(State *initial) {
     closedListHistory.push_back(currentNode);
   }
 
-  return DFSResult(openListHistory, closedListHistory, nullptr);
+  return Result(openListHistory, closedListHistory, nullptr);
 }
 
 int main() {
@@ -93,8 +92,8 @@ int main() {
   initial->print(0);
 
   cout << "Searching..." << endl;
-  // BFSResult result = breadthFirstSearch(initial);
-  DFSResult result = depthFirstSearch(initial);
+  // Result result = breadthFirstSearch(initial);
+  Result result = depthFirstSearch(initial);
 
   if (result.isValid()) {
     result.printPath();

@@ -1,5 +1,5 @@
-#ifndef BFSRESULT_H
-#define BFSRESULT_H
+#ifndef RESULT_H
+#define RESULT_H
 
 #include "../cpp-text-table/TextTable.h"
 #include "State.h"
@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class BFSResult {
+class Result {
 private:
   vector<vector<State *>> openList;
   vector<State *> closedList;
@@ -27,7 +27,7 @@ private:
   }
 
 public:
-  BFSResult(vector<vector<State *>> openList, vector<State *> closedList,
+  Result(vector<vector<State *>> openList, vector<State *> closedList,
             State *goal) {
     this->openList = openList;
     this->closedList = closedList;
