@@ -1,0 +1,22 @@
+Busca em largura:
+(Inicial) = a, Custo: 0
+(2) = a -> b, Custo: 1
+(3) = b -> e, Custo: 6
+(4) = e -> h, Custo: 9
+Custo total: 16
+
+Busca em profundidade:
+(Inicial) = a, Custo: 0
+(2) = a -> d, Custo: 4
+(3) = d -> g, Custo: 5
+(4) = g -> h, Custo: 1
+Custo total: 10
+
+Busca gulosa:
+(Inicial) = a, Custo: 0
+(2) = a -> b, Custo: 1
+(3) = b -> f, Custo: 1
+(4) = f -> h, Custo: 4
+Custo total: 6
+
+Como podemos ver, tanto a busca em largura quanto a busca em profundidade encontraram caminhos com custo maior que a busca gulosa.
