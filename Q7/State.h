@@ -70,6 +70,20 @@ public:
 
   int getCost() const { return cost; }
   int getHeuristic() const { return destiny.getHeuristic(); }
+  int getRealCost() {
+    if (parent == nullptr)
+      return cost;
+
+    int realCost = 0;
+    State *current = this;
+
+    while (current->parent != nullptr) {
+      realCost += current->getCost();
+      current = current->parent;
+    }
+
+    return realCost + destiny.getHeuristic();
+  }
 
   bool isValid(State *previousState, bool ordered = false) const {
     return previousState->destiny == this->origin &&
@@ -78,9 +92,9 @@ public:
 
   bool isGoal() { return destiny.getName() == "k"; }
 
-  string fingerprint() const {
+  string fingerprint() {
     return origin.getName() + destiny.getName() + "_" +
-           to_string(getHeuristic());
+           to_string(getRealCost());
   }
 
   bool operator==(const State &s) const {
@@ -89,10 +103,10 @@ public:
 
   bool operator!=(const State &s) const { return !(*this == s); }
 
-  void print(int index) const {
+  void print(int index) {
     cout << "(" << index << ")"
-         << " " << origin.getName() << " -> " << destiny.getName() << " Heuristica: "
-         << getHeuristic() << endl;
+         << " " << origin.getName() << " -> " << destiny.getName()
+         << " Custo Real: " << getRealCost() << endl;
   }
 };
 

@@ -1,0 +1,7 @@
+Initial state:
+(0) c -> a Custo Real: 0
+Searching...
+Path:
+(1) a -> b Custo Real: 14
+(2) b -> i Custo Real: 16
+(3) i -> k Custo Real: 16
