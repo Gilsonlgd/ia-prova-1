@@ -39,9 +39,10 @@ public:
   void printPath() const {
     cout << "Path:" << endl;
     vector<State *> path = this->getPath();
-    int index = 1;
+    int index = 0;
     for (const auto &state : path) {
-      state->print(index);
+      if (index > 0)
+        state->print(index);
       index++;
     }
   }

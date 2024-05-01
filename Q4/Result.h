@@ -28,7 +28,7 @@ private:
 
 public:
   Result(vector<vector<State *>> openList, vector<State *> closedList,
-            State *goal) {
+         State *goal) {
     this->openList = openList;
     this->closedList = closedList;
     this->goal = goal;
@@ -39,9 +39,10 @@ public:
   void printPath() const {
     cout << "Path:" << endl;
     vector<State *> path = this->getPath();
-    int index = 1;
+    int index = 0;
     for (const auto &state : path) {
-      state->print(index);
+      if (index > 0)
+        state->print(index);
       index++;
     }
   }

@@ -77,13 +77,14 @@ int main() {
   initial->print();
 
   cout << "Searching..." << endl;
-  vector<State*> result = breadthFirstSearch(initial);
+  vector<State *> result = breadthFirstSearch(initial);
 
   if (!result.empty()) {
     cout << "Path:" << endl;
-    int index = 1;
+    int index = 0;
     for (const auto &state : result) {
-      state->print(index);
+      if (index > 0)
+        state->print(index);
       index++;
     }
   }
