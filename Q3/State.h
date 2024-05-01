@@ -29,7 +29,7 @@ private:
   Operator cabbage;
 
   Action action;
-  State *parent = nullptr;
+  State *parent = nullptr; // used to reconstruct the final path
 
 public:
   State(Action a, Operator f, Operator w, Operator s, Operator c, State *p)

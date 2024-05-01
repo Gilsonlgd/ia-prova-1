@@ -13,7 +13,7 @@ private:
   char origin;
   char destiny;
 
-  State *parent = nullptr;
+  State *parent = nullptr; // used to reconstruct the final path
 
 public:
   State(int id, char origin, char destiny, State *p)

@@ -1,0 +1,8 @@
+Initial state:
+(0) c -> a Heuristica: 0
+Searching...
+Path:
+(1) a -> c Heuristica: 6
+(2) c -> j Heuristica: 3
+(3) j -> l Heuristica: 4
+(4) l -> k Heuristica: 0

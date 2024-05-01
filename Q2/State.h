@@ -15,7 +15,7 @@ private:
   int pitcher_y;
   int GOAL = 2;
   Action action;
-  State *parent = nullptr;
+  State *parent = nullptr; // used to reconstruct the final path
 
 public:
   State(int x, int y, Action a, State *p)
