@@ -23,10 +23,10 @@ vector<State *> listToVec(list<State *> l) {
   return v;
 }
 
-/* Function: greedyBestFirstSearch
+/* Function: aStarSearch
  * Description: Performs a greedy best-first search to find the solution
  */
-Result greedyBestFirstSearch(State *initial) {
+Result aStarSearch(State *initial) {
   vector<vector<State *>> openListHistory;
   vector<State *> closedListHistory;
 
@@ -69,11 +69,11 @@ int main() {
   initial->print(0);
 
   cout << "Searching..." << endl;
-  Result result = greedyBestFirstSearch(initial);
+  Result result = aStarSearch(initial);
 
   if (result.isValid()) {
-    // result.printPath();
-    result.printProccessTable();
+    result.printPath();
+    // result.printProccessTable();
   } else {
     cout << "No solution found" << endl;
   }
