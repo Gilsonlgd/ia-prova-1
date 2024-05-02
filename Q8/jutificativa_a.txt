@@ -1,0 +1,3 @@
+O algoritmo mais apropriado para resolver o problema do quebra-cabeça de 8 peças é o algoritmo que utiliza a heuristica como critério de escolha do nó a ser expandido.
+
+Isso a heuristica define o número mínimo de movimentos necessários para atingir o estado objetivo a partir de um estado qualquer. Assim, o algoritmo de busca gulosa pela melhor escolha escolhe o nó que tem a menor heuristica, ou seja, o nó que está teoricamente mais próximo do estado objetivo. Ao contrário do que acontece ao utilizarmos o custo (que é sempre 1) como critério de escolha. Nesse caso, o algoritmo de busca gulosa se comporta como o algoritmo de busca em largura. 
