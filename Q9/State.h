@@ -64,7 +64,7 @@ public:
     while (current->getParent() != nullptr) {
       if (current->getParent()->getType() == MAX &&
           current->getParent()->getValue() != EMPTY &&
-          current->getParent()->getValue() > greaterThan) {
+          current->getParent()->getValue() >= greaterThan) {
         return current->getParent();
       }
       current = current->getParent();
@@ -77,7 +77,7 @@ public:
     while (current->getParent() != nullptr) {
       if (current->getParent()->getType() == MIN &&
           current->getParent()->getValue() != EMPTY &&
-          current->getParent()->getValue() < lessThan){
+          current->getParent()->getValue() <= lessThan){
         return current->getParent();
       }
       current = current->getParent();
