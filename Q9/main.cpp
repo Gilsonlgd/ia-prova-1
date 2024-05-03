@@ -10,8 +10,8 @@ int main() {
   Tree *tree = new Tree(5, values);
 
   // tree->minMaxPropagation();
-  tree->alfaBetaLRPropagation();
-  // tree->alfaBetaRLPropagation();
+  // tree->alfaBetaLRPropagation();
+  tree->alfaBetaRLPropagation();
   tree->printTree();
 
   return 0;
