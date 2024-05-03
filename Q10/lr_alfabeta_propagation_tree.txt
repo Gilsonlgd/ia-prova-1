@@ -1,0 +1,16 @@
+Nós com valor -2 significa poda naquela subárvore ou aresta. 0 significa vazio
+   -1
+      -1
+      -1
+   -1
+       1
+          1
+-1
+      -1
+       1
+          1
+   -1
+          1
+       1
+         -1
+            -1
