@@ -1,11 +1,11 @@
 Nós com valor -2 significa poda naquela subárvore ou aresta.
-            41 
-         36    
+            -41
+         -41   
             36 
-      36       
+      -19      
             -19
          -19   
-            -2 
+            24 
    -25
             -42
          -42   
@@ -19,12 +19,12 @@ Nós com valor -2 significa poda naquela subárvore ou aresta.
          -10   
             -10
       24       
-            25 
-         24    
-            24 
+            25
+         24
+            24
    20
-            31 
-         -45   
+            31
+         -45
             -45
       20
             33
