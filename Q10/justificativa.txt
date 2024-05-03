@@ -1,0 +1,1 @@
+Como após a propagação, a raiz da árvore é -1, significa que se o min jogar de forma perfeita, ele sempre ganhará e max sempre perderá.
