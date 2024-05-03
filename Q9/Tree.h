@@ -105,7 +105,7 @@ public:
         }
       } else {
         prunedNodes.push_back(node);
-        node->getRight()->setValue(EMPTY);
+        node->getRight()->setValue(PRUNED);
         return node;
       }
     } else {
@@ -120,7 +120,7 @@ public:
         }
       } else {
         prunedNodes.push_back(node);
-        node->getRight()->setValue(EMPTY);
+        node->getRight()->setValue(PRUNED);
         return node;
       }
     }
@@ -148,7 +148,7 @@ public:
         }
       } else {
         prunedNodes.push_back(node);
-        node->getLeft()->setValue(EMPTY);
+        node->getLeft()->setValue(PRUNED);
         return node;
       }
     } else {
@@ -163,7 +163,7 @@ public:
         }
       } else {
         prunedNodes.push_back(node);
-        node->getLeft()->setValue(EMPTY);
+        node->getLeft()->setValue(PRUNED);
         return node;
       }
     }

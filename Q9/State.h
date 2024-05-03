@@ -12,6 +12,7 @@
 using namespace std;
 
 #define EMPTY -1
+#define PRUNED -2
 
 enum Type { MAX, MIN };
 

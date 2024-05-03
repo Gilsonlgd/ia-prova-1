@@ -1,13 +1,13 @@
-Nós com valor -1 significa poda naquela subárvore ou aresta.
+Nós com valor -2 significa poda naquela subárvore ou aresta. -1 significa nó vazio
             41 
          -1    
             36 
-      -1       
+      -2       
             -19
          -1    
             24 
    18
-            -1 
+            -2 
          18    
             18 
       18       
@@ -16,14 +16,14 @@ Nós com valor -1 significa poda naquela subárvore ou aresta.
             40 
 20
             20 
-         -1    
+         -2    
             -10
       24       
             25 
          24    
             24 
    20
-            -1
+            -2
          -45
             -45
       20

@@ -1,11 +1,11 @@
-Nós com valor -1 significa poda naquela subárvore ou aresta.
+Nós com valor -2 significa poda naquela subárvore ou aresta.
             41 
          36    
             36 
       36       
             -19
          -19   
-            -1 
+            -2 
    -25
             -42
          -42   
