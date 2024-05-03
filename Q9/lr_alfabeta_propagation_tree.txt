@@ -1,5 +1,5 @@
 Nós com valor -2 significa poda naquela subárvore ou aresta. -1 significa nó vazio
-            41 
+            -41 
          -1    
             36 
       -2       
